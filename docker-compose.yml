@@ -4,31 +4,12 @@ services:
   i2c_display:
     build: .
     restart: always
-    devices:
-      - "/dev/i2c-1:/dev/i2c-1"
-      # - "/dev/mem:/dev/mem"
+    # devices:
+    #   - "/dev/i2c-1:/dev/i2c-1"
+    #   - "/dev/mem:/dev/mem"
     # cap_add:
       # - SYS_RAWIO
     # labels:
     #   io.balena.features.kernel-modules: '1'
 
     # privileged: true
-
-
-
-
-# Why don't we need to run in privileged mode, nor any capabilities? Maybe
-# because when we "share" a device with the container we get full access to the
-# device (and in this case at least, we don't need to do anything low-level that
-# is not via the device)? See a fragment of `balena inspect` on the container:
-#
-#     "Devices": [
-#         {
-#             "PathOnHost": "/dev/i2c-1",
-#             "PathInContainer": "/dev/i2c-1",
-#             "CgroupPermissions": "rwm"
-#         }
-#     ],
-#
-#
-# Why don't we need to load the i2c-dev kernel module manually? Who loads it?
