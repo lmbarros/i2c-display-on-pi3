@@ -4,8 +4,8 @@ services:
   i2c_display:
     build: .
     restart: always
-    # devices:
-    #   - "/dev/i2c-1:/dev/i2c-1"
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
     #   - "/dev/mem:/dev/mem"
     # cap_add:
       # - SYS_RAWIO
