@@ -1,0 +1,26 @@
+# base-image for node on any machine using a template variable,
+# see more about dockerfile templates here: https://www.balena.io/docs/learn/develop/dockerfile/#dockerfile-templates
+# and about balena base images here: https://www.balena.io/docs/reference/base-images/base-images/
+FROM balenalib/raspberrypi3-64-debian-python:3.7.16-sid
+
+# use `install_packages` if you need to install dependencies,
+# for instance if you need git, just uncomment the line below.
+RUN install_packages libc6-dev
+RUN install_packages gcc
+
+# RUN apt-get update
+# RUN apt-get install build-essential
+RUN pip3 install Pillow
+RUN pip3 install RPi.GPIO
+RUN pip3 install adafruit-circuitpython-ssd1306
+
+
+
+# Defines our working directory in container
+WORKDIR /usr/src/app
+
+# This will copy all files in our root to the working directory in the container
+COPY . ./
+
+# ........... will run when container starts up on the device
+CMD python src/main.py
