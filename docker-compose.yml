@@ -1,15 +1,24 @@
 version: "2"
 
 services:
+  # Our app is composed of one single service.
   i2c_display:
+
+    # And the Dockerfile used to build this service is locate in the same
+    # directory as this docker-compose.yml file.
     build: .
-    restart: always
+
+    # And here comes the imporant part with regards to I2C.
+    #
+    # The only thing we need to do here is to tell that we'll need to access the
+    # I2C controller from inside the container. In Linux, the I2C controller of
+    # a Raspberry Pi is represented by the /dev/i2c-1, so we just say that we'll
+    # need access to it.
+    #
+    # Making the container run in privileged mode would also work, as this would
+    # give the container the ability to access pretty much anything and
+    # everything on the device. However, it's generally better to avoid running
+    # in privileged mode, because it hurts when we shoot ourselves in the foot
+    # with all that power!
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-    #   - "/dev/mem:/dev/mem"
-    # cap_add:
-      # - SYS_RAWIO
-    # labels:
-    #   io.balena.features.kernel-modules: '1'
-
-    # privileged: true

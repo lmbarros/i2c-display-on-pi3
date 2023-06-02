@@ -1,26 +1,28 @@
-# base-image for node on any machine using a template variable,
-# see more about dockerfile templates here: https://www.balena.io/docs/learn/develop/dockerfile/#dockerfile-templates
-# and about balena base images here: https://www.balena.io/docs/reference/base-images/base-images/
 FROM balenalib/raspberrypi3-64-debian-python:3.7.16-sid
 
-# use `install_packages` if you need to install dependencies,
-# for instance if you need git, just uncomment the line below.
+# One of the Python packages installed below has some C code that needs to be
+# compiled, so make sure we have the required tools. This is a pretty good
+# example of Dockerfile that would benefit from a multi-stage build setup, but I
+# am keeping things simple here. (If you want to learn about multi-stage Docker
+# builds check here: https://docs.docker.com/build/building/multi-stage/)
 RUN install_packages libc6-dev
 RUN install_packages gcc
 
-# RUN apt-get update
-# RUN apt-get install build-essential
+# Now install the Python packages we'll use. The main thing here is the Adafruit
+# package that interfaces with the SSD1306 controller used by various display
+# models. That is the code that will effectivelly use the I2C interface to talk
+# with the display.
 RUN pip3 install Pillow
 RUN pip3 install RPi.GPIO
 RUN pip3 install adafruit-circuitpython-ssd1306
 
-
-
-# Defines our working directory in container
+# Defines the working directory in the container.
 WORKDIR /usr/src/app
 
-# This will copy all files in our root to the working directory in the container
-COPY . ./
+# This is a simple example with a single source file. Copy it to current
+# directory of the container (which is the WORKDIR we sert above).
+COPY src/main.py ./
 
-# ........... will run when container starts up on the device
-CMD python src/main.py
+# We the container starts, we want to run that Python script we just copied to
+# the container.
+CMD python main.py
