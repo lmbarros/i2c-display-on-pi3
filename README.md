@@ -11,6 +11,21 @@ Display](https://www.adafruit.com/product/326) by Adafruit.
 
 Anyway, go check the code. It's well-documented.
 
+## Connections
+
+A picture would definitely help here, but for now all I have is this:
+
+| **Display Pin** | **Raspberry PI GPIO Pin Number** | **Raspberry PI GPIO Pin Description** |
+|-----------------|----------------------------------|---------------------------------------|
+| VCC             | 1                                | 3v3 Power                             |
+| GND             | 6                                | Ground                                |
+| SDA (Data)      | 3                                | GPIO 2 (I2C1 SDA)                     |
+| SCL (Clock)     | 5                                | GPIO 2 (I2C1 SCL)                     |
+
+Actually there's not much margin to be creative when connecting I2C peripherals
+to a Pi, but you may want to check the [Raspberry Pi
+Pinout](https://pinout.xyz/pinout/i2c#) website for some more info.
+
 ## Further experiments (left as exercise to the reader!)
 
 ### I2C Baud Rate
